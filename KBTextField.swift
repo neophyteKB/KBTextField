@@ -80,6 +80,22 @@ class KBTextField: UITextField {
             leftView = imageView
         }
     }
+    
+    override public var placeholder: String?{
+        didSet{
+            let color: UIColor = placeholderTextColor != nil ? placeholderTextColor! : UIColor.clear
+            attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName : color]);
+            tintColor = placeholderTextColor
+        }
+    }
+    
+//    var textFieldIsTypeOf = false
+    @IBInspectable var placeholderPreviewEnable : Bool = false{
+        didSet{
+            self.addSubView(placeholderPreview)
+        }
+    }
+    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.insetBy(dx: padding, dy: 0.0)
     }
@@ -142,6 +158,11 @@ class KBTextField: UITextField {
         txf.layer.add(animation, forKey: "position")
     }
     
+    func placeholderPreview() -> UILabel{
+        let lbl = UILabel(frame: self.bounds)
+        lbl.text = self.placeholder
+        return lbl
+    }
     
 //  class  func shakeFieldMS(_ txf: KBTextField){
 //        let animation = CABasicAnimation(keyPath: "position")
